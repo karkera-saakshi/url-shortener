@@ -19,8 +19,18 @@ let getNextSequence = async () => {
 
 
 
-let saveUrl = async () =>{
+let saveUrl = async (shortUrl, orignalUrl) =>{
+    let client = new MongoClient(url);
+    await client.connect();
+    let db = client.db("urlShortener")
+    let coll = db.collection("urls");
 
+   let obj = {
+    shortUrl: shortUrl,
+    orignalUrl: orignalUrl
+    }
+    await coll.insertOne(obj)
+    await client.close();
 }
 
-module.exports = { getNextSequence };
+module.exports = { getNextSequence, saveUrl };

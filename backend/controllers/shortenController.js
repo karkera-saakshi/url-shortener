@@ -8,11 +8,12 @@ let createShortUrl = async (req, res)=>
     if(result == true)
     {
         let number = await shortenModel.getNextSequence();
-        let shortUrl = generateShortUrl.generateShortUrl(url, number);
-        shortenModel.saveUrl(shortUrl, url);
+        let shortUrl = await generateShortUrl.generateShortUrl(url, number);
+        let returnUrl = await shortenModel.saveUrl(shortUrl.code, url);
+        res.status(200).send(shortUrl.shortUrl)
     }
     else{
-        res.send("URL is invalid");
+        res.status(400).send("URL is invalid");
     }
 }
 
