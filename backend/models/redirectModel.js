@@ -4,7 +4,8 @@ const redisClient = require("../utils/redisClient");
 
 let redirectToOriginalUrl = async (shortUrl) =>
 {
-    const value = await redisClient.get(shortUrl); // Cache Hit
+    redClient = await redisClient;
+    const value = await redClient.get(shortUrl); // Cache Hit
     if(value != null)
     {
         return value;
@@ -22,7 +23,7 @@ let redirectToOriginalUrl = async (shortUrl) =>
     }
     else{
         await client.close();
-        await redisClient.set(shortUrl, urlObj.orignalUrl);
+        await redClient.set(shortUrl, urlObj.orignalUrl);
         return urlObj.orignalUrl;
     }
 }
