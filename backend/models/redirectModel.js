@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 let url = process.env.MONGODB_URI;
+const redisClient = require("../utils/redisClient");
 
 let redirectToOriginalUrl = async (shortUrl) =>
 {
