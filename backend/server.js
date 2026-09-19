@@ -9,12 +9,21 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", shortenRoutes);  
 app.use("/", redirectRoutes);
-redClient = await redisClient;
-process.on("SIGTERM",()=> {
-    redClient.quit(); // usually sent by Docker, hosting platforms, process managers, etc.
-})
-process.on("SIGINT",()=> {
-    redClient.quit(); // usually when you press Ctrl + C in the terminal.
-    console.log("Ended");
-})
+
+async function startServer() {
+    const redClient = await redisClient;
+
+    process.on("SIGTERM", () => {
+        redClient.quit(); // usually sent by Docker, hosting platforms, process managers, etc.
+    });
+
+    process.on("SIGINT", () => {
+        redClient.quit(); // usually when you press Ctrl + C in the terminal.
+        console.log("Ended");
+    });
+
+}
+
+startServer();
+
 app.listen(9000, () =>{console.log("Server is running on port 9000")})

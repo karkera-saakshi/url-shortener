@@ -16,6 +16,9 @@ function App() {
     .then((res)=>{
       setShortUrl(res.data);
     })
+    .catch((err)=>{
+       setShortUrl(err.response.data); 
+    })
   };
 
   return (
